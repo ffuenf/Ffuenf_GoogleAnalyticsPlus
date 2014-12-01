@@ -122,4 +122,90 @@ class Fooman_GoogleAnalyticsPlus_Block_Common_Abstract extends Mage_Core_Block_T
         }
         return $this->getData('page_name');
     }
+
+    public function getBasePageName()
+    {
+        return Mage::getSingleton('core/url')->escape(
+            rtrim(
+                str_replace(
+                    'index/', '',
+                    Mage::app()->getRequest()->getBaseUrl() . Mage::app()->getRequest()->getRequestString()
+                ), '/'
+            )
+        );
+    }
+
+    public function getPageQuery()
+    {
+        $parts = parse_url($this->getPageName());
+        $query = '';
+        if (isset($parts['query']) && !empty($parts['query'])) {
+            $query = '?' . $parts['query'];
+        }
+        return $query;
+    }
+
+
+    /**
+     * get Google Analytics profile id
+     *
+     * @return mixed|string
+     */
+    public function getMainAccountId()
+    {
+        if (!Mage::helper('googleanalytics')->isGoogleAnalyticsAvailable()) {
+            return '';
+        }
+        return Mage::getStoreConfig(Mage_GoogleAnalytics_Helper_Data::XML_PATH_ACCOUNT);
+    }
+
+    /**
+     * get alternative Google Analytics profile id
+     *
+     * @return mixed
+     */
+    public function getAlternativeAccountId()
+    {
+        return Mage::getStoreConfig('google/analyticsplus_classic/accountnumber2');
+    }
+
+    /**
+     * get Google Analytics universal account id
+     *
+     * @return mixed
+     */
+    public function getUniversalAccount()
+    {
+        return Mage::getStoreConfig('google/analyticsplus_universal/accountnumber');
+    }
+
+    /**
+     * get Google Analytics universal account id for alternative profile
+     *
+     * @return mixed
+     */
+    public function getAlternativeUniversalAccount()
+    {
+        return Mage::getStoreConfig('google/analyticsplus_universal/altaccountnumber');
+    }
+
+    /**
+     * are we using universal
+     *
+     * @return bool
+     */
+    public function isUniversalEnabled()
+    {
+        return Mage::getStoreConfigFlag('google/analyticsplus_universal/enabled');
+    }
+
+    /**
+     * are we using tag manager
+     *
+     * @return bool
+     */
+    public function isTagManagerEnabled()
+    {
+        return Mage::getStoreConfigFlag('google/analyticsplus_tagmanager/enabled');
+    }
 }

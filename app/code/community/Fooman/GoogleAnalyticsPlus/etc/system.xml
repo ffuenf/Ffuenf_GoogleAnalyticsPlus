@@ -167,6 +167,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </accountnumber>
+                        <altaccountnumber translate="label">
+                            <label>Account Number (alternative Profile)</label>
+                            <comment/>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </altaccountnumber>
                         <anonymise translate="label">
                             <label>Anonymise IP Address</label>
                             <comment><![CDATA[See <a href="https://support.google.com/analytics/answer/2763052?hl=en">Google Documentation</a> for details]]></comment>
@@ -198,14 +207,26 @@
                         </display_advertising>
                         <display_advertising_cookiename translate='label'>
                             <label>Display Advertising Features Cookie Name</label>
-                            <comment><![CDATA[Leave empty for standard setups <br/><a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features#changing-the-cookie-name">Google Documentation</a>]]></comment>
+                            <comment><![CDATA[Leave empty for standard setups <br/><a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/display-features">Google Documentation</a>]]></comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>401</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <depends><display_advertising>1</display_advertising></depends>
+                            <depends>
+                                <display_advertising>1</display_advertising>
+                            </depends>
                         </display_advertising_cookiename>
+                        <userid_tracking translate='label'>
+                            <label>Enable User ID Feature</label>
+                            <comment><![CDATA[See <a href="https://support.google.com/analytics/answer/3123662?hl=en&utm_id=ad">Google Documentation</a> for details]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>500</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </userid_tracking>
                     </fields>
                 </analyticsplus_universal>
                 <analyticsplus_tagmanager translate="label">
@@ -278,7 +299,9 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <depends><enabled>1</enabled></depends>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
                         </feed_product_id>
                     </fields>
                 </analyticsplus_dynremarketing>

@@ -12,6 +12,8 @@
  */
 class Fooman_GoogleAnalyticsPlus_Block_Universal extends Fooman_GoogleAnalyticsPlus_Block_GaConversion
 {
+    const TRACKER_TWO_NAME = 'tracker2';
+
     protected function _construct()
     {
         parent::_construct();
@@ -33,16 +35,6 @@ class Fooman_GoogleAnalyticsPlus_Block_Universal extends Fooman_GoogleAnalyticsP
     }
 
     /**
-     * are we using universal
-     *
-     * @return bool
-     */
-    public function isUniversalEnabled()
-    {
-        return Mage::getStoreConfigFlag('google/analyticsplus_universal/enabled');
-    }
-
-    /**
      * get universal snippet from settings
      *
      * @deprecated since 0.14.0
@@ -53,15 +45,6 @@ class Fooman_GoogleAnalyticsPlus_Block_Universal extends Fooman_GoogleAnalyticsP
         return '';
     }
 
-    /**
-     * get Google Analytics account id
-     *
-     * @return mixed
-     */
-    public function getUniversalAccount()
-    {
-        return Mage::getStoreConfig('google/analyticsplus_universal/accountnumber');
-    }
 
     /**
      * @return bool
@@ -72,18 +55,28 @@ class Fooman_GoogleAnalyticsPlus_Block_Universal extends Fooman_GoogleAnalyticsP
     }
 
     /**
+     * Build any params that is passed on create of analytics object
+     *
+     * @param bool $createTrackerTwo
+     *
      * @return string
      */
-    public function getUniversalParams()
+    public function getUniversalParams($createTrackerTwo = false)
     {
+        $params = array();
         if (Mage::getStoreConfig('google/analyticsplus_universal/domainname')) {
-            return sprintf(
-                "{'cookieDomain': '%s'}",
-                Mage::getStoreConfig('google/analyticsplus_universal/domainname')
-            );
-        } else {
+            $params['cookieDomain'] = Mage::getStoreConfig('google/analyticsplus_universal/domainname');
+        }
+        if ($this->canUseUniversalUserTracking()) {
+            $params['userId'] = $this->getCustomerId();
+        }
+        if ($createTrackerTwo) {
+            $params['name'] = self::TRACKER_TWO_NAME;
+        }
+        if (count($params) == 0) {
             return "'auto'";
         }
+        return json_encode($params);
     }
 
     /**
@@ -105,5 +98,38 @@ class Fooman_GoogleAnalyticsPlus_Block_Universal extends Fooman_GoogleAnalyticsP
     {
         return Mage::getStoreConfig('google/analyticsplus_universal/display_advertising_cookiename');
     }
+
+    /**
+     * Is universal user tracking available.
+     * Must be enabled in admin and a user must be logged in
+     * TODO: Use persistent login data!
+     *
+     * @return bool
+     */
+    public function canUseUniversalUserTracking()
+    {
+        return (Mage::getStoreConfigFlag('google/analyticsplus_universal/userid_tracking')
+            && Mage::getSingleton(
+                'customer/session'
+            )->isLoggedIn()) ? true : false;
+    }
+
+    /**
+     * Get the current logged in customer id
+     *
+     * @return mixed bool | integer
+     */
+    public function getCustomerId()
+    {
+        if (Mage::getSingleton('customer/session')->isLoggedIn()
+            && is_object(
+                Mage::getSingleton('customer/session')->getCustomer()
+            )
+        ) {
+            return Mage::getSingleton('customer/session')->getCustomer()->getId();
+        }
+        return false;
+    }
+
 
 }

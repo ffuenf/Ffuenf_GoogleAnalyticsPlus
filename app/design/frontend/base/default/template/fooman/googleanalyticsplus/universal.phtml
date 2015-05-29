@@ -81,7 +81,7 @@
             <?php endif; ?>
         <?php endif; ?>
 
-        ga('send', 'pageview', '<?php echo $this->getPageName(); ?>');
+        ga('send', 'pageview', '<?php echo $this->getPageName(); ?>' <?php if ($this->canIncludeHash()) echo '+ location.hash' ?>);
         <?php if ($altUniversal):?>
             ga('<?php echo Fooman_GoogleAnalyticsPlus_Block_Universal::TRACKER_TWO_NAME?>.send', 'pageview', '<?php echo $this->getPageName(); ?>');
         <?php endif;?>

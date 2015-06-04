@@ -25,7 +25,64 @@
                 ga('<?php echo Fooman_GoogleAnalyticsPlus_Block_Universal::TRACKER_TWO_NAME?>.require', 'displayfeatures'<?php if($this->getUniversalDisplayAdvertisingCookieName()):?>, undefined, { cookieName: '<?php echo $this->getUniversalDisplayAdvertisingCookieName(); ?>' }<?php endif; ?>);
             <?php endif;?>
         <?php endif;?>
-        ga('send', 'pageview', '<?php echo $this->getPageName(); ?>');
+
+        <?php if ($this->isProductTrackingEnabled() && $product = Mage::registry('current_product') ): /* @var $product Mage_Catalog_Model_Product */ ?>
+        /* BOC:: Send product data with pageview. */
+        ga('require', 'ec');
+
+        <?php $categoryData = $this->getProductCategoryData($product); ?>
+        <?php
+            $brand = '';
+            if ($this->getBrandAttributeCode()) {
+                $brand = $this->jsQuoteEscape($product->getAttributeText($this->getBrandAttributeCode()));
+            }
+        ?>
+        ga('ec:addProduct', {
+            'id': '<?php echo $this->jsQuoteEscape($product->getId()) ?>',
+            'name': '<?php echo $this->jsQuoteEscape($product->getName()) ?>',
+            'category': '<?php echo $this->jsQuoteEscape($this->getProductCategory($product))?>',
+            'brand': '<?php echo $brand ?>',
+            'variant': ''
+        });
+        ga('ec:setAction', 'detail');
+        /* EOC:: Send product data with pageview. */
+        <?php endif; ?>
+
+        <?php if ($this->isCartTrackingEnabled()): ?>
+            <?php $count = $this->getCartItemsCount() ?>
+            <?php if ($count && strpos($this->getRequest()->getPathInfo(), 'checkout/cart/') !== false) : ?>
+            /* BOC:: Send cart items with pageview. */
+            ga('require', 'ec');
+
+            ga('set', '&cu', '<?php echo Mage::app()->getStore()->getCurrentCurrencyCode(); ?>');
+
+            <?php $items = $this->getCartItems() ?>
+            <?php foreach($items as $item): ?>
+            <?php if ( $item->getParentItemId() ) continue; ?>
+            <?php $product = $item->getProduct() ?>
+            <?php
+                $brand = '';
+                if ($this->getBrandAttributeCode()) {
+                    $brand = $this->jsQuoteEscape($product->getAttributeText($this->getBrandAttributeCode()));
+                }
+            ?>
+            ga('ec:addProduct', {
+                'id': '<?php echo $this->jsQuoteEscape($product->getId()) ?>',
+                'name': '<?php echo $this->jsQuoteEscape($product->getName()) ?>',
+                'category': '<?php echo $this->jsQuoteEscape($this->getCategory($item)) ?>',
+                'brand': '<?php echo $brand ?>',
+                'variant':  '<?php echo $this->jsQuoteEscape($item->getSku()) ?>',
+                'price': '<?php echo $this->jsQuoteEscape($product->getFinalPrice()) ?>',
+                'quantity': <?php echo $this->jsQuoteEscape($item->getQty()) ?>
+            });
+            <?php endforeach; ?>
+
+            ga('ec:setAction', 'cart');
+            /* EOC:: Send cart items with pageview. */
+            <?php endif; ?>
+        <?php endif; ?>
+
+        ga('send', 'pageview', '<?php echo $this->getPageName(); ?>' <?php if ($this->canIncludeHash()) echo '+ location.hash' ?>);
         <?php if ($altUniversal):?>
             ga('<?php echo Fooman_GoogleAnalyticsPlus_Block_Universal::TRACKER_TWO_NAME?>.send', 'pageview', '<?php echo $this->getPageName(); ?>');
         <?php endif;?>

@@ -63,6 +63,9 @@ class Fooman_GoogleAnalyticsPlus_Block_Universal extends Fooman_GoogleAnalyticsP
         if ($createTrackerTwo) {
             $params['name'] = self::TRACKER_TWO_NAME;
         }
+        if ($this->canIncludeHash()) {
+            $params['allowAnchor'] = true;
+        }
         if (count($params) == 0) {
             return "'auto'";
         }
@@ -102,6 +105,11 @@ class Fooman_GoogleAnalyticsPlus_Block_Universal extends Fooman_GoogleAnalyticsP
             && Mage::getSingleton(
                 'customer/session'
             )->isLoggedIn()) ? true : false;
+    }
+
+    public function canIncludeHash()
+    {
+        return Mage::getStoreConfig('google/analyticsplus_universal/includehash');
     }
 
     /**
@@ -157,4 +165,85 @@ class Fooman_GoogleAnalyticsPlus_Block_Universal extends Fooman_GoogleAnalyticsP
         return Mage::getStoreConfigFlag('google/analyticsplus_universal/exclude_tax');
     }
 
+    /**
+     * Is product tracking available
+     *
+     * @return boolean
+     */
+    public function isProductTrackingEnabled()
+    {
+        return Mage::getStoreConfig('google/analyticsplus_universal/product_tracking');
+    }
+
+    /**
+     * Is cart tracking available
+     *
+     * @return boolean
+     */
+    public function isCartTrackingEnabled()
+    {
+        return Mage::getStoreConfig('google/analyticsplus_universal/cart_tracking');
+    }
+
+    /**
+     * get attribute code for brand
+     *
+     * @return string
+     */
+    public function getBrandAttributeCode()
+    {
+        return Mage::getStoreConfig('google/analyticsplus_universal/brand');
+    }
+
+    /**
+     * get category product data
+     *
+     * @param $product
+     *
+     * @return array
+     */
+    public function getProductCategoryData($product)
+    {
+        $categoryData = new Varien_Object();
+        if ( $catIds = $product->getCategoryIds() ) {
+            foreach($catIds as $catId) {
+                $category = Mage::getModel('catalog/category')->load($catId);
+                if ( $category ) {
+                    //we use the first category
+                    $positions = $category->getProductsPosition();
+                    $position = isset($positions[$product->getId()]) ? $positions[$product->getId()] : 1;
+                    $categoryData->setName($category->getName());
+                    $categoryData->setPosition($position);
+                    return $categoryData;
+                }
+            }
+        }
+        return $categoryData;
+    }
+
+    /**
+     * get cart items count
+     *
+     *
+     * @return int
+     */
+    public function getCartItemsCount()
+    {
+        $quote = Mage::getModel('checkout/cart')->getQuote();
+        $count = $quote->getItemsCount();
+        return $count;
+    }
+
+    /**
+     * get all cart items
+     *
+     *
+     * @return object
+     */
+    public function getCartItems()
+    {
+        $quote = Mage::getModel('checkout/cart')->getQuote();
+        $items = $quote->getAllItems();
+        return $items;
+    }
 }

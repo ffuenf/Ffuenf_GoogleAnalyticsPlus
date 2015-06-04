@@ -1,0 +1,52 @@
+<?php /* @var $this Ffuenf_GoogleAnalyticsPlus_Block_Ajax */ ?>
+<script>
+    /* <![CDATA[ */
+    var FfuenfGoogleAnalytics = Class.create();
+    FfuenfGoogleAnalytics.prototype = {
+        initialize: function(settings){
+            this.baseUrl = settings.baseUrl;
+            this.pageQuery = settings.pageQuery;
+            this.universal = settings.universal;
+            this.altUniversal = settings.altUniversal;
+            this.useDataLayer = settings.useDataLayer;
+        },
+        trackEvent: function(section){
+            var urlToTrack = this.baseUrl + '/' + section + this.pageQuery;
+            if (this.universal) {
+                ga('send', 'pageview', urlToTrack);
+            }
+            if (this.altUniversal) {
+                ga('<?php echo Ffuenf_GoogleAnalyticsPlus_Block_Universal::TRACKER_TWO_NAME?>.send', 'pageview', urlToTrack);
+            }
+            if (this.useDataLayer) {
+                dataLayer.push({'event': section});
+            }
+        }
+    }
+    var ffuenfGoogleAnalytics = new FfuenfGoogleAnalytics({
+            baseUrl: '<?php echo $this->getBasePageName() ?>',
+            pageQuery: '<?php echo $this->getPageQuery() ?>',
+            universal: '<?php echo $this->isUniversalEnabled() ? $this->getUniversalAccount():'' ?>',
+            altUniversal: '<?php echo $this->isUniversalEnabled() ? $this->getAlternativeUniversalAccount():'' ?>',
+            useDataLayer: '<?php echo $this->isTagManagerEnabled()?>'
+        }
+    );
+    if (typeof(Accordion) != "undefined") {
+        Accordion.prototype.openSection  = Accordion.prototype.openSection.wrap(function(originalOpenSection, section){
+            if (typeof section === 'string') {
+                var trackelement = section;
+            } else {
+                var trackelement = section.id;
+            }
+            ffuenfGoogleAnalytics.trackEvent(trackelement);
+            originalOpenSection(section);
+        });
+    }
+    if (typeof(Review) != "undefined") {
+        Review.prototype.save  = Review.prototype.save.wrap(function(originalSave){
+            ffuenfGoogleAnalytics.trackEvent('opc-review-placeOrderClicked');
+            originalSave();
+        });
+    }
+    /* ]]> */
+</script>

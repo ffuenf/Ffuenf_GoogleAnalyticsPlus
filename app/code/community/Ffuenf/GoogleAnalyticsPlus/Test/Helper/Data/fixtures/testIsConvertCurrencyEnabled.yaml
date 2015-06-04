@@ -1,0 +1,2 @@
+config:
+    default/google/analyticsplus/convertcurrencyenabled: 1

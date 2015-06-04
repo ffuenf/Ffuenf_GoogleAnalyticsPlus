@@ -1,0 +1,26 @@
+language: php
+sudo: false
+php:
+- 5.3
+- 5.4
+- 5.5
+- 5.6
+- hhvm
+matrix:
+  allow_failures:
+  - php: 5.6
+  - php: hhvm
+env:
+  matrix:
+  - MAGENTO_VERSION=magento-ce-1.9.1.1
+  - MAGENTO_VERSION=magento-ce-1.8.1.0
+  - MAGENTO_VERSION=magento-ce-1.7.0.2
+  - MAGENTO_VERSION=magento-ce-1.6.2.0
+  global:
+    secure: oG1+bd6QeQtVtvJoV4MG4h72ypwuuUCV0ui41ip+IQ3PCIY0cQbdo8N5HaRCUizQKMpmD1SeRGIBZvGTT0mdsU5Wx2br4WJ1m9hDDKfVo4XmIfQwj9bxmT01V4pgLQvNLUQdBY1frXi2/W3XuosL9j24srdYzsbyMsvQM5QQD0MLMozAWpO/zKcpsgdZJq9+lrgniJGyR50AVgKrmgaYDR8BrXsEijDHpZDRMRwTnujMhPeAops402+eHpqwHgkIZIf3r1hQKf594XsOTzDQUk1n4y2GeKJZDZeW2mLyJ0oz8vauJTiyNHeeLj6lTSyxyTmLkYZaUmk5llNxLVdF89OeNK+5iBbEFjpfy2DipOSRuSkyKfd+VJ89yLXFwmSP2RFFc6JkFVkj8jnT7lqY4ZYd6D7nw6HPQE0B3MOMcVZDtrszcF3rS5pfLQ7KnCZ/ShIZU93SrUS99v/Kim73IMYbrRzphED+fJLEHcqSt4YBlYlZTWASdGqFjnN7u/Sstq50EboC0ZeOsESxtz6uy1PtxIqWvwPQ25PSoPK33gV3xhoitQk350tSEOxLX8hO+V8qpyON/ae8rTA1ndDBCQooZgumZ4M7lgA3dnNDsN0Bvnf2ULHdIP6yLsrybl9LnwKOhJhsBquUMTIzKkeMbhhxEdO7WcwpyCby0JWPBKo=
+script:
+- curl -sSL https://raw.githubusercontent.com/ffuenf/MageTestStand/master/setup.sh
+  | bash
+notifications:
+  slack:
+    secure: gw7dCp2wNwNJ/pxDGgkb61vvMfSyMVTpurxhozQX9t/1icj6iBJ9N+duQMkZIP/94OG3r7/f91HQK3cpLqjKsZ9wTONICQy0gTKSk6jGjaZ3BaZjy1bA10a3ig2/PooJX5JusAdjEGYw2XZz7QotHscZziDzGynIXgpn0ngcf56yIPTvsXWDZrz4pMFb/LM8A9V7zZGZuZsp7OvmcwPlc3fj/Z96YZ1JFGSghg3WN7m2zbFFw8KPJ56FPFJTQ7N1P5AqPU8wAckZborZI1lcBI5YeVxU+bZEdgfZ6YpnX0gqjtn6paFwQ1Sqyya/3TK24e3ESh7P55t47YGBeHfitTASLppkUf9Q4x1DxfYHFr80QPbPCgnRU8p0G6wmMuKB6Ah4aWcUZKEIrPGZZ8Y8hnN9uNLbbZmR/HrdmfIdT2SLarZYDAYqU9HjGKWCDnTbb8LnzmSTZZnqZPCDnjbptHtj/b76udHqMhLvzg6UBenqnnaZKqzc0lhqdesWjXgcbnaLtKk+mwWDe4ymLWtshuxV864XvyUoesFqHFOFRz40ZzCrk+SRGFadJ9pfo2/ndUUM3ruMBc87S2JW40PlAybZROOf3jA1WCHhNSrSooEV+noxjFhEbUsKUgFyGHcNA2q1MzWDLLPS35+9v5/vbEKoIboGYyWdm696wdDwHN8=

@@ -1,0 +1,2 @@
+config:
+    default/google/analyticsplus_dynremarketing/enabled: 1

@@ -1,0 +1,143 @@
+<?php /* @var $this Ffuenf_GoogleAnalyticsPlus_Block_Universal */ ?>
+<?php if ($this->shouldInclude()): ?>
+    <?php $altUniversal = $this->getAlternativeUniversalAccount(); ?>
+    <!-- Google Analytics -->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','<?php echo $this->getAnalyticsLocation(); ?>','ga');
+        ga('create', '<?php echo $this->getUniversalAccount(); ?>',<?php echo $this->getUniversalParams(); ?>);
+        <?php if ($altUniversal): ?>
+            ga('create', '<?php echo $altUniversal; ?>',<?php echo $this->getUniversalParams(true); ?>);
+        <?php endif; ?>
+        <?php if ($this->getUniversalAnonymise()): ?>
+            ga('set', 'anonymizeIp', true);
+            <?php if ($altUniversal): ?>
+                ga('<?php echo Ffuenf_GoogleAnalyticsPlus_Block_Universal::TRACKER_TWO_NAME; ?>.set', 'anonymizeIp', true);
+            <?php endif; ?>
+        <?php endif; ?>
+        <?php if ($this->getUniversalDisplayAdvertising()): ?>
+            ga('require', 'displayfeatures'<?php if ($this->getUniversalDisplayAdvertisingCookieName()): ?>, undefined, { cookieName: '<?php echo $this->getUniversalDisplayAdvertisingCookieName(); ?>' }<?php endif; ?>);
+            <?php if ($altUniversal): ?>
+                ga('<?php echo Ffuenf_GoogleAnalyticsPlus_Block_Universal::TRACKER_TWO_NAME; ?>.require', 'displayfeatures'<?php if ($this->getUniversalDisplayAdvertisingCookieName()): ?>, undefined, { cookieName: '<?php echo $this->getUniversalDisplayAdvertisingCookieName(); ?>' }<?php endif; ?>);
+            <?php endif; ?>
+        <?php endif; ?>
+        <?php if ($this->isProductTrackingEnabled() && $product = Mage::registry('current_product')): /* @var $product Mage_Catalog_Model_Product */ ?>
+        /* BOC:: Send product data with pageview. */
+        ga('require', 'ec');
+        <?php $categoryData = $this->getProductCategoryData($product); ?>
+        <?php
+            $brand = '';
+            if ($this->getBrandAttributeCode()) {
+                $brand = $this->jsQuoteEscape($product->getAttributeText($this->getBrandAttributeCode()));
+            }
+        ?>
+        ga('ec:addProduct', {
+            'id': '<?php echo $this->jsQuoteEscape($product->getId()); ?>',
+            'name': '<?php echo $this->jsQuoteEscape($product->getName()); ?>',
+            'category': '<?php echo $this->jsQuoteEscape($this->getProductCategory($product)); ?>',
+            'brand': '<?php echo $brand; ?>',
+            'variant': ''
+        });
+        ga('ec:setAction', 'detail');
+        /* EOC:: Send product data with pageview. */
+        <?php endif; ?>
+        <?php if ($this->isCartTrackingEnabled()): ?>
+            <?php $count = $this->getCartItemsCount() ?>
+            <?php if ($count && strpos($this->getRequest()->getPathInfo(), 'checkout/cart/') !== false): ?>
+            /* BOC:: Send cart items with pageview. */
+            ga('require', 'ec');
+            ga('set', '&cu', '<?php echo Mage::app()->getStore()->getCurrentCurrencyCode(); ?>');
+            <?php $items = $this->getCartItems() ?>
+            <?php foreach ($items as $item): ?>
+            <?php if ($item->getParentItemId()) continue; ?>
+            <?php $product = $item->getProduct() ?>
+            <?php
+                $brand = '';
+                if ($this->getBrandAttributeCode()) {
+                    $brand = $this->jsQuoteEscape($product->getAttributeText($this->getBrandAttributeCode()));
+                }
+            ?>
+            ga('ec:addProduct', {
+                'id': '<?php echo $this->jsQuoteEscape($product->getId()) ?>',
+                'name': '<?php echo $this->jsQuoteEscape($product->getName()) ?>',
+                'category': '<?php echo $this->jsQuoteEscape($this->getCategory($item)) ?>',
+                'brand': '<?php echo $brand ?>',
+                'variant':  '<?php echo $this->jsQuoteEscape($item->getSku()) ?>',
+                'price': '<?php echo $this->jsQuoteEscape($product->getFinalPrice()) ?>',
+                'quantity': <?php echo $this->jsQuoteEscape($item->getQty()) ?>
+            });
+            <?php endforeach; ?>
+            ga('ec:setAction', 'cart');
+            /* EOC:: Send cart items with pageview. */
+            <?php endif; ?>
+        <?php endif; ?>
+        ga('send', 'pageview', '<?php echo $this->getPageName(); ?>' <?php if ($this->canIncludeHash()) echo '+ location.hash' ?>);
+        <?php if ($altUniversal): ?>
+            ga('<?php echo Ffuenf_GoogleAnalyticsPlus_Block_Universal::TRACKER_TWO_NAME; ?>.send', 'pageview', '<?php echo $this->getPageName(); ?>');
+        <?php endif;?>
+    </script>
+    <?php if ($this->isSuccessPage()): ?>
+        <?php $order = $this->_getOrder(); ?>
+        <?php
+            $shipping = Mage::helper('googleanalyticsplus')->convert($order, 'shipping_amount');
+            $tax = Mage::helper('googleanalyticsplus')->convert($order, 'tax_amount');
+            $revenue =  Mage::helper('googleanalyticsplus')->convert($order, 'grand_total');
+            $revenue -= (($this->shouldExcludeShipping())? $shipping : 0);
+            $revenue -= (($this->shouldExcludeTax())? $tax : 0);
+            $transactionDetails = "{
+                'id': '". $this->jsQuoteEscape($order->getIncrementId()) ."',
+                'affiliation': '". $this->jsQuoteEscape(Mage::app()->getStore()->getName()) ."',
+                'revenue': '". $revenue ."',
+                'shipping': '". $shipping ."',
+                'tax': '". $tax ."',
+                'currency': '". Mage::helper('googleanalyticsplus')->getTrackingCurrency($order) ."'
+            }";
+        ?>
+        <script>
+            /* <![CDATA[ */
+        <?php if ($this->getEnhancedEcommerce()): ?>
+            ga('ec:setAction', 'purchase', <?php echo $transactionDetails; ?>);
+        <?php else: ?>
+            ga('require', 'ecommerce', 'ecommerce.js');
+            <?php if ($altUniversal): ?>
+                ga('<?php echo Ffuenf_GoogleAnalyticsPlus_Block_Universal::TRACKER_TWO_NAME; ?>.require', 'ecommerce', '  ecommerce.js');
+            <?php endif; ?>
+            ga('ecommerce:addTransaction', <?php echo $transactionDetails; ?>);
+            <?php if ($altUniversal): ?>
+                ga('<?php echo Ffuenf_GoogleAnalyticsPlus_Block_Universal::TRACKER_TWO_NAME; ?>.ecommerce:addTransaction', <?php echo $transactionDetails; ?>);
+            <?php endif; ?>
+        <?php endif; ?>
+        <?php foreach ($order->getAllVisibleItems() as $item): ?>
+            <?php $itemDetails = "{
+                'id': '".$this->jsQuoteEscape($order->getIncrementId()) ."',
+                'name': '". $this->jsQuoteEscape($item->getName()) ."',
+                'sku': '". $this->jsQuoteEscape($item->getSku()) ."',
+                'price': '". Mage::helper('googleanalyticsplus')->convert($item, 'price', $order->getOrderCurrencyCode()) ."',
+                'quantity': '". (int)$item->getQtyOrdered() ."',
+                'category': '". $this->jsQuoteEscape($this->getCategory($item)) ."'
+                }";
+                ?>
+            <?php if ($this->getEnhancedEcommerce()): ?>
+                ga('ec:addProduct', <?php echo $itemDetails; ?>);
+            <?php else: ?>
+                ga('ecommerce:addItem', <?php echo $itemDetails; ?>);
+                <?php if ($altUniversal): ?>
+                    ga('<?php echo Ffuenf_GoogleAnalyticsPlus_Block_Universal::TRACKER_TWO_NAME; ?>.ecommerce:addItem', <?php echo $itemDetails; ?>);
+                <?php endif; ?>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        <?php if ($this->getEnhancedEcommerce()): ?>
+                ga('send', 'pageview');
+        <?php else: ?>
+            ga('ecommerce:send');
+            <?php if ($altUniversal): ?>
+                ga('<?php echo Ffuenf_GoogleAnalyticsPlus_Block_Universal::TRACKER_TWO_NAME; ?>.ecommerce:send');
+            <?php endif; ?>
+        <?php endif; ?>
+            /* ]]> */
+        </script>
+    <?php endif; ?>
+    <!-- End Google Analytics -->
+<?php endif; ?>

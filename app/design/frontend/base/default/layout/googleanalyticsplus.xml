@@ -8,6 +8,8 @@
             </action>
         </reference>
         <reference name="before_head_end">
+            <block type="googleanalyticsplus/optOut" name="googleanalyticsplus_optout"
+                   as="googleanalyticsplus_optOut"/>
             <block type="googleanalyticsplus/universal" name="googleanalyticsplus_universal"
                    as="googleanalyticsplus_universal"/>
         </reference>
@@ -30,19 +32,19 @@
     <checkout_onepage_index>
         <reference name="form.additional.info">
             <block type="googleanalyticsplus/ajax" name="googleanalyticsplus_ajax"
-                   template="fooman/googleanalyticsplus/ajax-tracking.phtml"/>
+                   template="ffuenf/googleanalyticsplus/ajax-tracking.phtml"/>
         </reference>
     </checkout_onepage_index>-->
     <checkout_onepage_success>
         <reference name="before_body_end">
             <block type="googleanalyticsplus/gaConversion" name="googleanalyticsplus_conversion"
-                   template="fooman/googleanalyticsplus/ga-conversion.phtml"/>
+                   template="ffuenf/googleanalyticsplus/ga-conversion.phtml"/>
         </reference>
     </checkout_onepage_success>
     <checkout_multishipping_success>
         <reference name="before_body_end">
             <block type="googleanalyticsplus/gaConversion" name="googleanalyticsplus_conversion"
-                   template="fooman/googleanalyticsplus/ga-conversion.phtml"/>
+                   template="ffuenf/googleanalyticsplus/ga-conversion.phtml"/>
         </reference>
     </checkout_multishipping_success>
 </layout>

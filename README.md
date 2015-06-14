@@ -5,12 +5,14 @@ Ffuenf_GoogleAnalyticsPlus
 [![Code Quality](https://scrutinizer-ci.com/g/ffuenf/Ffuenf_GoogleAnalyticsPlus/badges/quality-score.png)][code_quality]
 [![Code Coverage](https://scrutinizer-ci.com/g/ffuenf/Ffuenf_GoogleAnalyticsPlus/badges/coverage.png)][code_coverage]
 [![Code Climate](https://codeclimate.com/github/ffuenf/Ffuenf_GoogleAnalyticsPlus/badges/gpa.svg)][codeclimate_gpa]
+[![PayPal Donate](https://img.shields.io/badge/paypal-donate-blue.svg)][paypal_donate]
 
 [tag]: https://github.com/ffuenf/Ffuenf_GoogleAnalyticsPlus
 [travis]: https://travis-ci.org/ffuenf/Ffuenf_GoogleAnalyticsPlus
 [code_quality]: https://scrutinizer-ci.com/g/ffuenf/Ffuenf_GoogleAnalyticsPlus
 [code_coverage]: https://scrutinizer-ci.com/g/ffuenf/Ffuenf_GoogleAnalyticsPlus
 [codeclimate_gpa]: https://codeclimate.com/github/ffuenf/Ffuenf_GoogleAnalyticsPlus
+[paypal_donate]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=J2PQS2WLT2Y8W&item_name=Magento%20Extension%3a%20Ffuenf_GoogleAnalyticsPlus&item_number=Ffuenf_GoogleAnalyticsPlus&currency_code=EUR
 
 Magento Extension to add extra features to the default GoogleAnalytics module.
 

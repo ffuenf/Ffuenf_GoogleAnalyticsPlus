@@ -24,17 +24,17 @@ class Ffuenf_GoogleAnalyticsPlus_Model_Source_Productattribute
         $collection = Mage::getResourceModel('catalog/product_attribute_collection');
         $options[] = array(
             'value' => '',
-            'label' => '',
+            'label' => ''
         );
         $options[] = array(
                 'value' => 'entity_id',
-                'label' => 'Entity Id',
+                'label' => 'Entity Id'
         );
         foreach ($collection as $attribute) {
             $options[] = array(
                 'value' => $attribute->getAttributeCode(),
                 'label' => ($attribute->getFrontendLabel() ? $attribute->getFrontendLabel()
-                        : $attribute->getAttributeCode()),
+                        : $attribute->getAttributeCode())
             );
         }
 

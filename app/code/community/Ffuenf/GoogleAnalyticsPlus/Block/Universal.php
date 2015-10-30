@@ -29,7 +29,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Universal extends Ffuenf_GoogleAnalyticsP
     }
 
     /**
-     * should we include the universal snippet.
+     * should we include the universal snippet
      *
      * @return bool
      */
@@ -59,7 +59,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Universal extends Ffuenf_GoogleAnalyticsP
     }
 
     /**
-     * Build any params that is passed on create of analytics object.
+     * Build any params that is passed on create of analytics object
      *
      * @param bool $createTrackerTwo
      *
@@ -83,7 +83,6 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Universal extends Ffuenf_GoogleAnalyticsP
         if (count($params) == 0) {
             return "'auto'";
         }
-
         return json_encode($params);
     }
 
@@ -98,7 +97,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Universal extends Ffuenf_GoogleAnalyticsP
     }
 
     /**
-     * Return cookiename for Display Advertising.
+     * Return cookiename for Display Advertising
      *
      * @return String
      */
@@ -123,15 +122,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Universal extends Ffuenf_GoogleAnalyticsP
     }
 
     /**
-     * @return bool
-     */
-    public function canIncludeHash()
-    {
-        return Mage::getStoreConfig('google/analyticsplus_universal/includehash');
-    }
-
-    /**
-     * Get the current logged in customer id.
+     * Get the current logged in customer id
      *
      * @return mixed bool | integer
      */
@@ -144,12 +135,11 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Universal extends Ffuenf_GoogleAnalyticsP
         ) {
             return Mage::getSingleton('customer/session')->getCustomer()->getId();
         }
-
         return false;
     }
 
     /**
-     * Get the right analytics.js.
+     * Get the right analytics.js
      *
      * @return string
      */
@@ -165,7 +155,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Universal extends Ffuenf_GoogleAnalyticsP
     }
 
     /**
-     * Get the exclude shipping settings.
+     * Get the exclude shipping settings
      *
      * @return bool
      */

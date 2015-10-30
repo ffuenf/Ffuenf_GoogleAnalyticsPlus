@@ -21,7 +21,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Common_Abstract extends Mage_Core_Block_T
     const XML_PATH_SUCCESS_PAGE_BLOCK_HANDLES = 'google/analyticsplus_abstract/success_page_handles';
 
     /**
-     * where cookie opt in is present and not yet accepted do not track.
+     * where cookie opt in is present and not yet accepted do not track
      *
      * @return bool
      */
@@ -33,12 +33,11 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Common_Abstract extends Mage_Core_Block_T
                 return false;
             }
         }
-
         return true;
     }
 
     /**
-     * determine if we are on the order success page.
+     * determine if we are on the order success page
      *
      * @return bool
      */
@@ -57,7 +56,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Common_Abstract extends Mage_Core_Block_T
     /**
      * get product category for tracking purposes
      * either based on chosen category tracking attribute
-     * or first category encountered.
+     * or first category encountered
      *
      * @param $product
      *
@@ -85,13 +84,12 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Common_Abstract extends Mage_Core_Block_T
                 }
             }
         }
-
         return false;
     }
 
     /**
      * retrieve an item's category
-     * if no product attribute chosen use the product's first category.
+     * if no product attribute chosen use the product's first category
      *
      * @param $item
      *
@@ -103,15 +101,14 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Common_Abstract extends Mage_Core_Block_T
         if ($product) {
             return $this->getProductCategory($product);
         }
-
-        return;
+        return null;
     }
 
     /**
      * Return REQUEST_URI for current page
      * Magento default analytics reports can include the same page as
      * /checkout/onepage/index/ and   /checkout/onepage/
-     * filter out index/ here and unify to no trailing /.
+     * filter out index/ here and unify to no trailing /
      *
      * @return string
      */
@@ -138,7 +135,6 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Common_Abstract extends Mage_Core_Block_T
             );
             $this->setPageName($url);
         }
-
         return $this->getData('page_name');
     }
 
@@ -164,12 +160,11 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Common_Abstract extends Mage_Core_Block_T
         if (isset($parts['query']) && !empty($parts['query'])) {
             $query = '?'.$parts['query'];
         }
-
         return $query;
     }
 
     /**
-     * get Google Analytics profile id.
+     * get Google Analytics profile id
      *
      * @return mixed|string
      */
@@ -178,12 +173,11 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Common_Abstract extends Mage_Core_Block_T
         if (!Mage::helper('googleanalytics')->isGoogleAnalyticsAvailable()) {
             return '';
         }
-
         return Mage::getStoreConfig(Mage_GoogleAnalytics_Helper_Data::XML_PATH_ACCOUNT);
     }
 
     /**
-     * get alternative Google Analytics profile id.
+     * get alternative Google Analytics profile id
      *
      * @return mixed
      */
@@ -193,7 +187,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Common_Abstract extends Mage_Core_Block_T
     }
 
     /**
-     * get Google Analytics universal account id.
+     * get Google Analytics universal account id
      *
      * @return mixed
      */
@@ -203,7 +197,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Common_Abstract extends Mage_Core_Block_T
     }
 
     /**
-     * get Google Analytics universal account id for alternative profile.
+     * get Google Analytics universal account id for alternative profile
      *
      * @return mixed
      */
@@ -213,7 +207,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Common_Abstract extends Mage_Core_Block_T
     }
 
     /**
-     * are we using universal.
+     * are we using universal
      *
      * @return bool
      */
@@ -223,7 +217,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Common_Abstract extends Mage_Core_Block_T
     }
 
     /**
-     * are we using tag manager.
+     * are we using tag manager
      *
      * @return bool
      */

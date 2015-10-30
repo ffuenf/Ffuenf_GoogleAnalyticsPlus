@@ -21,10 +21,11 @@ class Ffuenf_GoogleAnalyticsPlus_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * retrieve requested value from order or item
      * convert from base currency if configured
-     * else return order currency.
+     * else return order currency
      *
      * @param $object
      * @param $field
+     *
      * @param $currentCurrency
      *
      * @return string
@@ -67,7 +68,7 @@ class Ffuenf_GoogleAnalyticsPlus_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * currency for tracking.
+     * currency for tracking
      *
      * @param $object
      *

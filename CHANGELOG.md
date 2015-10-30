@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of Ffuenf_GoogleAnalyticsPlus.
 
+## 0.16.9 (October 30, 2015)
+
+* add test whether extension uses the old-style admin routing.
+
 ## 0.16.8 (June 4, 2015)
 
 * merge AOEpeople/googleanalyticsplus at 81bd60c1788ad01a8ccdea5f3225840f36f83e3b

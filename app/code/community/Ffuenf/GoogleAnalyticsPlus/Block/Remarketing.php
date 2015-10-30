@@ -35,7 +35,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Remarketing extends Ffuenf_GoogleAnalytic
     }
 
     /**
-     * are we using dynamic remarketing.
+     * are we using dynamic remarketing
      *
      * @return bool
      */
@@ -50,7 +50,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Remarketing extends Ffuenf_GoogleAnalytic
     }
 
     /**
-     * get no script url for remarketing tracking.
+     * get no script url for remarketing tracking
      *
      * @return string
      */
@@ -68,12 +68,11 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Remarketing extends Ffuenf_GoogleAnalytic
                 $this->getConversionId()
             );
         }
-
         return $url;
     }
 
     /**
-     * product category for product page.
+     * product category for product page
      *
      * @return string
      */
@@ -82,14 +81,13 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Remarketing extends Ffuenf_GoogleAnalytic
         if ($this->getPageType() == self::GA_PAGETYPE_PRODUCT) {
             return parent::getProductCategory(Mage::registry('current_product'));
         }
-
         return false;
     }
 
     /**
-     * value of product for product page.
+     * value of product for product page
      *
-     * @return string|null
+     * @return string
      */
     public function getEcommPValue()
     {
@@ -106,7 +104,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Remarketing extends Ffuenf_GoogleAnalytic
 
     /**
      * get value for current page, if order present use it's subtotal
-     * otherwise use current quote.
+     * otherwise use current quote
      *
      * @return string|null
      */
@@ -116,6 +114,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Remarketing extends Ffuenf_GoogleAnalytic
         switch ($this->getPageType()) {
             case self::GA_PAGETYPE_PRODUCT:
                 return $this->getEcommPValue();
+                break;
             case self::GA_PAGETYPE_CART:
                 $quote = Mage::getSingleton('checkout/session')->getQuote();
                 if (count($quote->getAllVisibleItems())) {
@@ -125,8 +124,8 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Remarketing extends Ffuenf_GoogleAnalytic
                         );
                     }
                 }
-
                 return $this->getArrayReturnValue($values, '0.00');
+                break;
             case self::GA_PAGETYPE_PURCHASE:
                 if ($this->_getOrder()) {
                     foreach ($this->_getOrder()->getAllVisibleItems() as $orderItem) {
@@ -135,15 +134,13 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Remarketing extends Ffuenf_GoogleAnalytic
                         );
                     }
                 }
-
                 return $this->getArrayReturnValue($values, '0.00');
         }
-
-        return "''";
+        return false;
     }
 
     /**
-     * get list of product ids for current page.
+     * get list of product ids for current page
      *
      * @return string
      */
@@ -153,8 +150,8 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Remarketing extends Ffuenf_GoogleAnalytic
         switch ($this->getPageType()) {
             case self::GA_PAGETYPE_PRODUCT:
                 $products[] = $this->getConfiguredFeedId(Mage::registry('current_product'));
-
                 return $this->getArrayReturnValue($products, "''");
+                break;
             case self::GA_PAGETYPE_CART:
                 $quote = Mage::getSingleton('checkout/session')->getQuote();
                 if ($quote) {
@@ -162,36 +159,33 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Remarketing extends Ffuenf_GoogleAnalytic
                         $products[] = $this->getConfiguredFeedId($item->getProduct());
                     }
                 }
-
                 return $this->getArrayReturnValue($products, "''", true);
+                break;
             case self::GA_PAGETYPE_PURCHASE:
                 if ($this->_getOrder()) {
                     foreach ($this->_getOrder()->getAllItems() as $item) {
                         $products[] = $this->getConfiguredFeedId($item->getProduct());
                     }
                 }
-
                 return $this->getArrayReturnValue($products, "''", true);
+                break;
         }
-
         return "''";
     }
 
     /**
      * @param Mage_Catalog_Model_Product $product
-     *
-     * @return string|int
+     * @return string|integer
      */
     public function getConfiguredFeedId($product)
     {
         $idAttr = Mage::getStoreConfig('google/analyticsplus_dynremarketing/feed_product_id');
         $id = $product->getDataUsingMethod($idAttr);
-
         return $id;
     }
 
     /**
-     * determine current page type for dynamic remarketing.
+     * determine current page type for dynamic remarketing
      *
      * @return null|string
      */
@@ -200,12 +194,10 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Remarketing extends Ffuenf_GoogleAnalytic
         if (is_null($this->_pageType)) {
             if (Mage::registry('current_product')) {
                 $this->_pageType = self::GA_PAGETYPE_PRODUCT;
-
                 return $this->_pageType;
             }
             if (Mage::registry('current_category')) {
                 $this->_pageType = self::GA_PAGETYPE_CATEGORY;
-
                 return $this->_pageType;
             }
             $module = Mage::app()->getRequest()->getModuleName();
@@ -240,13 +232,12 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Remarketing extends Ffuenf_GoogleAnalytic
                     $this->_pageType = self::GA_PAGETYPE_OTHER;
             }
         }
-
         return $this->_pageType;
     }
 
     /**
      * get Adword's conversion label from settings
-     * can't be chosen freely since assigned from Google.
+     * can't be chosen freely since assigned from Google
      *
      * @return string
      */
@@ -256,7 +247,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Remarketing extends Ffuenf_GoogleAnalytic
     }
 
     /**
-     * get Google Adwords conversion id.
+     * get Google Adwords conversion id
      *
      * @return string
      */
@@ -266,7 +257,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Remarketing extends Ffuenf_GoogleAnalytic
     }
 
     /**
-     * utility function to convert array of values as single or multiple value notation.
+     * utility function to convert array of values as single or multiple value notation
      *
      * @param        $values
      * @param string $default
@@ -287,15 +278,14 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Remarketing extends Ffuenf_GoogleAnalytic
         reset($values);
 
         if (sizeof($values) == 1) {
-            return current($values);
+            return $values[0];
         } else {
             return '[' . implode(',', $values) . ']';
         }
     }
 
     /**
-     * escape all quotes and additionally quote all strings.
-     *
+     * escape all quotes and additionally quote all strings
      * @param $value
      *
      * @return mixed|string
@@ -304,10 +294,9 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Remarketing extends Ffuenf_GoogleAnalytic
     {
         $value = $this->jsQuoteEscape($value);
         // quote if value is not numeric
-        if (!ctype_digit($value)) {
+        if (!is_numeric($value)) {
             $value = "'$value'";
         }
-
         return $value;
     }
 }

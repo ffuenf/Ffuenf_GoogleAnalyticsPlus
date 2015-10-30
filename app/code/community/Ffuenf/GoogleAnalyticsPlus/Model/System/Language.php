@@ -62,7 +62,6 @@ class Ffuenf_GoogleAnalyticsPlus_Model_System_Language
         $returnArray[] = array('value' => 'tl', 'label' => Mage::helper('directory')->__('Filipino'));
         $returnArray[] = array('value' => 'et', 'label' => Mage::helper('directory')->__('Estonian'));
         $returnArray[] = array('value' => 'th', 'label' => Mage::helper('directory')->__('Thai'));
-
         return $returnArray;
     }
 }

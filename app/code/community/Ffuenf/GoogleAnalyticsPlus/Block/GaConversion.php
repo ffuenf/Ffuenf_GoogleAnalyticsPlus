@@ -25,7 +25,7 @@ class  Ffuenf_GoogleAnalyticsPlus_Block_GaConversion extends Ffuenf_GoogleAnalyt
     protected $_order;
 
     /**
-     * helper to set the internal quote property.
+     * helper to set the internal quote property
      *
      * @param $quote
      */
@@ -35,7 +35,7 @@ class  Ffuenf_GoogleAnalyticsPlus_Block_GaConversion extends Ffuenf_GoogleAnalyt
     }
 
     /**
-     * is adwords conversion tracking enabled.
+     * is adwords conversion tracking enabled
      *
      * @return bool
      */
@@ -46,7 +46,7 @@ class  Ffuenf_GoogleAnalyticsPlus_Block_GaConversion extends Ffuenf_GoogleAnalyt
 
     /**
      * get Adword's conversion label from settings
-     * can't be chosen freely since assigned from Google.
+     * can't be chosen freely since assigned from Google
      *
      * @return string
      */
@@ -56,7 +56,7 @@ class  Ffuenf_GoogleAnalyticsPlus_Block_GaConversion extends Ffuenf_GoogleAnalyt
     }
 
     /**
-     * get a color - defaults to white.
+     * get a color - defaults to white
      *
      * @return string
      */
@@ -66,7 +66,7 @@ class  Ffuenf_GoogleAnalyticsPlus_Block_GaConversion extends Ffuenf_GoogleAnalyt
     }
 
     /**
-     * get the entered language.
+     * get the entered language
      *
      * @return string
      */
@@ -76,7 +76,7 @@ class  Ffuenf_GoogleAnalyticsPlus_Block_GaConversion extends Ffuenf_GoogleAnalyt
     }
 
     /**
-     * get Google Adwords conversion id.
+     * get Google Adwords conversion id
      *
      * @return string
      */
@@ -86,7 +86,7 @@ class  Ffuenf_GoogleAnalyticsPlus_Block_GaConversion extends Ffuenf_GoogleAnalyt
     }
 
     /**
-     * get url for adwords conversion tracking secure/unsecure.
+     * get url for adwords conversion tracking secure/unsecure
      *
      * @return string
      */
@@ -97,7 +97,7 @@ class  Ffuenf_GoogleAnalyticsPlus_Block_GaConversion extends Ffuenf_GoogleAnalyt
     }
 
     /**
-     * get no script url for adwords conversion tracking secure/unsecure.
+     * get no script url for adwords conversion tracking secure/unsecure
      *
      * @return string
      */
@@ -117,12 +117,11 @@ class  Ffuenf_GoogleAnalyticsPlus_Block_GaConversion extends Ffuenf_GoogleAnalyt
                 $this->getValue()
             );
         }
-
         return $url;
     }
 
     /**
-     * get conversion value, convert if chosen to a differnt currency.
+     * get conversion value, convert if chosen to a differnt currency
      *
      * @return int|string
      */
@@ -137,7 +136,7 @@ class  Ffuenf_GoogleAnalyticsPlus_Block_GaConversion extends Ffuenf_GoogleAnalyt
     }
 
     /**
-     * get order from the last quote id.
+     * get order from the last quote id
      *
      * @return mixed
      */
@@ -155,7 +154,6 @@ class  Ffuenf_GoogleAnalyticsPlus_Block_GaConversion extends Ffuenf_GoogleAnalyt
         } else {
             $this->_order = Mage::getModel('sales/order')->loadByAttribute('quote_id', $this->_quote->getId());
         }
-
         return $this->_order;
     }
 }

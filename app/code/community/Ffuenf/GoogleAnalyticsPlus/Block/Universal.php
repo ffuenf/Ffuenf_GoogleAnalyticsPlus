@@ -36,7 +36,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Universal extends Ffuenf_GoogleAnalyticsP
     public function shouldInclude()
     {
         if (parent::shouldInclude()) {
-            return $this->isUniversalEnabled() && (bool) $this->getUniversalAccount();
+            return $this->isUniversalEnabled() && (bool)$this->getUniversalAccount();
         } else {
             return false;
         }

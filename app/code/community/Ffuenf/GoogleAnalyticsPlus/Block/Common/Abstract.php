@@ -27,8 +27,8 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Common_Abstract extends Mage_Core_Block_T
      */
     public function shouldInclude()
     {
-        $coreHelperDir = Mage::getConfig()->getModuleDir('', 'Mage_Core').DS.'Helper'.DS;
-        if (file_exists($coreHelperDir.'Cookie.php')) {
+        $coreHelperDir = Mage::getConfig()->getModuleDir('', 'Mage_Core') . DS . 'Helper' . DS;
+        if (file_exists($coreHelperDir . 'Cookie.php')) {
             if (Mage::getStoreConfigFlag('google/analyticsplus/respectcookierestrict') && Mage::helper('core/cookie')->isUserNotAllowSaveCookie()) {
                 return false;
             }
@@ -122,16 +122,16 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Common_Abstract extends Mage_Core_Block_T
             );
             $query = '';
             if (isset($parts['query']) && !empty($parts['query'])) {
-                $query = '?'.$parts['query'];
+                $query = '?' . $parts['query'];
             }
 
             $url = Mage::getSingleton('core/url')->escape(
                 rtrim(
                     str_replace(
                         'index/', '',
-                        Mage::app()->getRequest()->getBaseUrl().Mage::app()->getRequest()->getRequestString()
+                        Mage::app()->getRequest()->getBaseUrl() . Mage::app()->getRequest()->getRequestString()
                     ), '/'
-                ).$query
+                ) . $query
             );
             $this->setPageName($url);
         }
@@ -147,7 +147,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Common_Abstract extends Mage_Core_Block_T
             rtrim(
                 str_replace(
                     'index/', '',
-                    Mage::app()->getRequest()->getBaseUrl().Mage::app()->getRequest()->getRequestString()
+                    Mage::app()->getRequest()->getBaseUrl() . Mage::app()->getRequest()->getRequestString()
                 ), '/'
             )
         );
@@ -158,7 +158,7 @@ class Ffuenf_GoogleAnalyticsPlus_Block_Common_Abstract extends Mage_Core_Block_T
         $parts = parse_url($this->getPageName());
         $query = '';
         if (isset($parts['query']) && !empty($parts['query'])) {
-            $query = '?'.$parts['query'];
+            $query = '?' . $parts['query'];
         }
         return $query;
     }

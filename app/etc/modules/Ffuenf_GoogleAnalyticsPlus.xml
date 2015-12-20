@@ -24,6 +24,7 @@
             <codePool>community</codePool>
             <depends>
                 <Mage_GoogleAnalytics/>
+                <Ffuenf_Common/>
             </depends>
         </Ffuenf_GoogleAnalyticsPlus>
     </modules>

@@ -1,4 +1,4 @@
-app/code/community/Ffuenf/GoogleAnalyticsPlus/ app/code/community/Ffuenf/GoogleAnalyticsPlus/
-app/design/frontend/base/default/layout/googleanalyticsplus.xml app/design/frontend/base/default/layout/googleanalyticsplus.xml
-app/design/frontend/base/default/template/ffuenf/googleanalyticsplus/ app/design/frontend/base/default/template/ffuenf/googleanalyticsplus/
-app/etc/modules/Ffuenf_GoogleAnalyticsPlus.xml app/etc/modules/Ffuenf_GoogleAnalyticsPlus.xml
+app/code/community/Ffuenf/GoogleAnalyticsPlus                        app/code/community/Ffuenf/GoogleAnalyticsPlus
+app/design/frontend/base/default/layout/googleanalyticsplus.xml      app/design/frontend/base/default/layout/googleanalyticsplus.xml
+app/design/frontend/base/default/template/ffuenf/googleanalyticsplus app/design/frontend/base/default/template/ffuenf/googleanalyticsplus
+app/etc/modules/Ffuenf_GoogleAnalyticsPlus.xml                       app/etc/modules/Ffuenf_GoogleAnalyticsPlus.xml

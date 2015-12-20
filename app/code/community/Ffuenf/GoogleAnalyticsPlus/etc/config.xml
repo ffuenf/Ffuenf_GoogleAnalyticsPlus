@@ -20,7 +20,7 @@
 <config>
     <modules>
         <Ffuenf_GoogleAnalyticsPlus>
-            <version>0.16.9</version>
+            <version>1.0.0</version>
         </Ffuenf_GoogleAnalyticsPlus>
     </modules>
     <global>
@@ -106,6 +106,9 @@
             </analyticsplus_universal>
         </google>
     </default>
+    <uninstall>
+        <filename>uninstall.txt</filename>
+    </uninstall>
     <phpunit>
         <suite>
             <modules>

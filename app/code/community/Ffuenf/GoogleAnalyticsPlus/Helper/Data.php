@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Ffuenf_GoogleAnalyticsPlus extension.
  *
@@ -16,7 +15,8 @@
  * @copyright  Copyright (c) 2015 ffuenf (http://www.ffuenf.de)
  * @license    http://opensource.org/licenses/mit-license.php MIT License
  */
-class Ffuenf_GoogleAnalyticsPlus_Helper_Data extends Mage_Core_Helper_Abstract
+
+class Ffuenf_GoogleAnalyticsPlus_Helper_Data extends Ffuenf_Common_Helper_Core
 {
     /**
      * retrieve requested value from order or item
@@ -33,7 +33,6 @@ class Ffuenf_GoogleAnalyticsPlus_Helper_Data extends Mage_Core_Helper_Abstract
     public function convert($object, $field, $currentCurrency = null)
     {
         $baseCur = Mage::app()->getStore($object->getStoreId())->getBaseCurrency();
-
         //getPrice and getFinalPrice do not have base equivalents
         if ($field != 'price' && $field != 'final_price') {
             $field = 'base_' . $field;
@@ -52,11 +51,9 @@ class Ffuenf_GoogleAnalyticsPlus_Helper_Data extends Mage_Core_Helper_Abstract
                 $baseValue = Mage::app()->getStore()->roundPrice($value / $rate);
             }
         }
-
         if (!Mage::getStoreConfig('google/analyticsplus/convertcurrencyenabled')) {
             return $baseValue;
         }
-
         return sprintf(
             '%01.4f', Mage::app()->getStore()->roundPrice(
                 $baseCur->convert(

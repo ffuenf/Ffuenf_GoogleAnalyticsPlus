@@ -1,0 +1,4 @@
+app/code/community/Ffuenf/GoogleAnalyticsPlus
+app/design/frontend/base/default/layout/googleanalyticsplus.xml
+app/design/frontend/base/default/template/ffuenf/googleanalyticsplus
+app/etc/modules/Ffuenf_GoogleAnalyticsPlus.xml
